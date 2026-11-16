@@ -3,7 +3,8 @@
 > **Master Database Platform, Cluster Topologies, and Storage Infrastructure**  
 > **Authority:** Principal Database Architect & Enterprise SRE  
 > **Classification:** Enterprise Tier-1 Database Infrastructure  
-> **Governance Standard:** [DATABASE_GOVERNANCE_STANDARD.md](docs/DATABASE_GOVERNANCE_STANDARD.md)
+> **Governance Standard:** [DATABASE_GOVERNANCE_STANDARD.md](docs/DATABASE_GOVERNANCE_STANDARD.md)  
+> **Developer Access Runbook:** [DEVELOPER_DATABASE_ACCESS_GUIDE.md](docs/DEVELOPER_DATABASE_ACCESS_GUIDE.md)
 
 ---
 
