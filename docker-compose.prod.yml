@@ -60,7 +60,7 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - oenexa-db-net
+      - oenexa-net
 
   pgbouncer:
     image: edoburu/pgbouncer:v1.23.0
@@ -74,7 +74,7 @@ services:
       postgres:
         condition: service_healthy
     networks:
-      - oenexa-db-net
+      - oenexa-net
 
   redis:
     image: redis:7-alpine
@@ -98,9 +98,9 @@ services:
       timeout: 3s
       retries: 5
     networks:
-      - oenexa-db-net
+      - oenexa-net
 
 networks:
-  oenexa-db-net:
-    name: oenexa-db-net
-    driver: bridge
+  oenexa-net:
+    name: oenexa-net
+    external: true

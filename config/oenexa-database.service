@@ -1,0 +1,18 @@
+[Unit]
+Description=OENEXA Enterprise 24/7 Database Platform (PostgreSQL 17, Redis, PgBouncer)
+Documentation=https://github.com/oenexa/oenexa-database
+Requires=docker.service
+After=docker.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=/opt/oenexa/oenexa-database
+ExecStart=/usr/bin/docker compose -f docker-compose.prod.yml up -d
+ExecStop=/usr/bin/docker compose -f docker-compose.prod.yml down
+ExecReload=/usr/bin/docker compose -f docker-compose.prod.yml restart
+TimeoutStartSec=120
+
+[Install]
+WantedBy=multi-user.target
