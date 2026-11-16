@@ -1,0 +1,49 @@
+name: Database Platform CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate-and-deploy:
+    name: Database Platform Pipeline
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Validate Compose & Shell Configurations
+        run: |
+          docker compose -f docker-compose.yml config > /dev/null
+          docker compose -f docker-compose.prod.yml config > /dev/null
+          bash -n init/01-init-databases.sh
+          bash -n scripts/backup.sh
+          bash -n scripts/restore.sh
+          bash -n scripts/healthcheck.sh
+          echo "✓ All database configurations and scripts validated successfully."
+
+      - name: Deploy to VPS (if SSH key configured)
+        if: github.ref == 'refs/heads/main'
+        id: deploy-step
+        run: |
+          if [ -n "${{ secrets.VPS_SSH_KEY }}" ]; then
+            echo "has_key=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_key=false" >> $GITHUB_OUTPUT
+            echo "::notice ::VPS_SSH_KEY secret not found in repository. Set VPS_SSH_KEY to enable auto-deploy."
+          fi
+
+      - name: Sync Database Config to VPS
+        if: steps.deploy-step.outputs.has_key == 'true'
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: 62.210.92.60
+          username: ubuntu
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            echo ">>> Updating database platform configurations on production VPS..."
+            cd /opt/oenexa/oenexa-database
+            git pull origin main || true
+            docker compose -f docker-compose.prod.yml up -d --no-deps postgres redis
