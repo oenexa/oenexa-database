@@ -1,0 +1,69 @@
+# ==============================================================================
+# OENEXA Enterprise Database Platform — Local Development Stack
+# Standalone Docker Compose for Database Engineers & Developers
+# ==============================================================================
+services:
+  postgres:
+    image: pgvector/pgvector:pg17
+    container_name: oenexa-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-oenexa_master}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres_local_dev_secret_2026}
+      AI_DB_NAME: ${AI_DB_NAME:-oenexa_ai_db}
+      AI_DB_USER: ${AI_DB_USER:-oenexa_ai_app}
+      AI_DB_PASSWORD: ${AI_DB_PASSWORD:-ai_dev_password}
+      COMMERCE_DB_NAME: ${COMMERCE_DB_NAME:-oengo_commerce_db}
+      COMMERCE_DB_USER: ${COMMERCE_DB_USER:-oengo_app}
+      COMMERCE_DB_PASSWORD: ${COMMERCE_DB_PASSWORD:-commerce_dev_password}
+      IDENTITY_DB_NAME: ${IDENTITY_DB_NAME:-oenexa_identity_db}
+      IDENTITY_DB_USER: ${IDENTITY_DB_USER:-oenexa_identity_app}
+      IDENTITY_DB_PASSWORD: ${IDENTITY_DB_PASSWORD:-identity_dev_password}
+      PAY_DB_NAME: ${PAY_DB_NAME:-oenexa_pay_db}
+      PAY_DB_USER: ${PAY_DB_USER:-oenexa_pay_app}
+      PAY_DB_PASSWORD: ${PAY_DB_PASSWORD:-pay_dev_password}
+    volumes:
+      - oenexa-postgres-data:/var/lib/postgresql/data
+      - ./init:/docker-entrypoint-initdb.d:ro
+      - ./config/postgresql.conf:/etc/postgresql/postgresql.conf:ro
+      - ./config/pg_hba.conf:/etc/postgresql/pg_hba.conf:ro
+    command: postgres -c config_file=/etc/postgresql/postgresql.conf -c hba_file=/etc/postgresql/pg_hba.conf
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - oenexa-db-net
+
+  redis:
+    image: redis:7-alpine
+    container_name: oenexa-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: redis-server /usr/local/etc/redis/redis.conf
+    volumes:
+      - oenexa-redis-data:/data
+      - ./config/redis.conf:/usr/local/etc/redis/redis.conf:ro
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - oenexa-db-net
+
+volumes:
+  oenexa-postgres-data:
+    name: oenexa-postgres-data
+  oenexa-redis-data:
+    name: oenexa-redis-data
+
+networks:
+  oenexa-db-net:
+    name: oenexa-db-net
+    driver: bridge

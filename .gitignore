@@ -1,0 +1,8 @@
+.env
+*.log
+data/
+backups/
+dump.rdb
+appendonly.aof
+.DS_Store
+Thumbs.db
