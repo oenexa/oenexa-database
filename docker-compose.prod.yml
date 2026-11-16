@@ -63,7 +63,7 @@ services:
       - oenexa-net
 
   pgbouncer:
-    image: edoburu/pgbouncer:v1.23.0
+    image: edoburu/pgbouncer:latest
     container_name: oenexa-pgbouncer
     restart: unless-stopped
     ports:
