@@ -1,8 +1,46 @@
+# Environment & Secret Files (Keep only .env.example)
 .env
-*.log
+.env.local
+.env.development
+.env.staging
+.env.production
+.env.*
+!.env.example
+
+# Runtime, Volumes & Database State
 data/
-backups/
+pgdata/
+redis-data/
+*.rdb
+*.aof
 dump.rdb
 appendonly.aof
+
+# Backups & Dumps
+backups/
+*.sql.gz
+*.sql.tar
+*.dump
+*.dump.gz
+*.backup
+
+# Logs
+logs/
+*.log
+
+# IDE & Editor Directories
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Operating System Files
 .DS_Store
 Thumbs.db
+ehthumbs.db
+
+# Temporary & Cache Directories
+tmp/
+temp/
+.cache/
