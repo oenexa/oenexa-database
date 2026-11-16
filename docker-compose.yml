@@ -13,21 +13,37 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-oenexa_master}
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres_local_dev_secret_2026}
-      AI_DB_NAME: ${AI_DB_NAME:-oenexa_ai_db}
-      AI_DB_USER: ${AI_DB_USER:-oenexa_ai_app}
-      AI_DB_PASSWORD: ${AI_DB_PASSWORD:-ai_dev_password}
-      COMMERCE_DB_NAME: ${COMMERCE_DB_NAME:-oengo_commerce_db}
-      COMMERCE_DB_USER: ${COMMERCE_DB_USER:-oengo_app}
-      COMMERCE_DB_PASSWORD: ${COMMERCE_DB_PASSWORD:-commerce_dev_password}
       IDENTITY_DB_NAME: ${IDENTITY_DB_NAME:-oenexa_identity_db}
       IDENTITY_DB_USER: ${IDENTITY_DB_USER:-oenexa_identity_app}
       IDENTITY_DB_PASSWORD: ${IDENTITY_DB_PASSWORD:-identity_dev_password}
+      WALLET_DB_NAME: ${WALLET_DB_NAME:-oenexa_wallet_db}
+      WALLET_DB_USER: ${WALLET_DB_USER:-oenexa_wallet_app}
+      WALLET_DB_PASSWORD: ${WALLET_DB_PASSWORD:-wallet_dev_password}
       PAY_DB_NAME: ${PAY_DB_NAME:-oenexa_pay_db}
       PAY_DB_USER: ${PAY_DB_USER:-oenexa_pay_app}
       PAY_DB_PASSWORD: ${PAY_DB_PASSWORD:-pay_dev_password}
+      EXCHANGE_DB_NAME: ${EXCHANGE_DB_NAME:-oenexa_exchange_db}
+      EXCHANGE_DB_USER: ${EXCHANGE_DB_USER:-oenexa_exchange_app}
+      EXCHANGE_DB_PASSWORD: ${EXCHANGE_DB_PASSWORD:-exchange_dev_password}
+      LIQUIDITY_DB_NAME: ${LIQUIDITY_DB_NAME:-oenexa_liquidity_db}
+      LIQUIDITY_DB_USER: ${LIQUIDITY_DB_USER:-oenexa_liquidity_app}
+      LIQUIDITY_DB_PASSWORD: ${LIQUIDITY_DB_PASSWORD:-liquidity_dev_password}
+      AI_DB_NAME: ${AI_DB_NAME:-oenexa_ai_db}
+      AI_DB_USER: ${AI_DB_USER:-oenexa_ai_app}
+      AI_DB_PASSWORD: ${AI_DB_PASSWORD:-ai_dev_password}
+      MARKET_DATA_DB_NAME: ${MARKET_DATA_DB_NAME:-oenexa_market_data_db}
+      MARKET_DATA_DB_USER: ${MARKET_DATA_DB_USER:-oenexa_market_data_app}
+      MARKET_DATA_DB_PASSWORD: ${MARKET_DATA_DB_PASSWORD:-market_data_dev_password}
+      VALIDATOR_DB_NAME: ${VALIDATOR_DB_NAME:-oenexa_validator_db}
+      VALIDATOR_DB_USER: ${VALIDATOR_DB_USER:-oenexa_validator_app}
+      VALIDATOR_DB_PASSWORD: ${VALIDATOR_DB_PASSWORD:-validator_dev_password}
+      COMMERCE_DB_NAME: ${COMMERCE_DB_NAME:-oengo_commerce_db}
+      COMMERCE_DB_USER: ${COMMERCE_DB_USER:-oengo_app}
+      COMMERCE_DB_PASSWORD: ${COMMERCE_DB_PASSWORD:-commerce_dev_password}
     volumes:
       - oenexa-postgres-data:/var/lib/postgresql/data
       - ./init:/docker-entrypoint-initdb.d:ro
+      - ./schemas:/schemas:ro
       - ./config/postgresql.conf:/etc/postgresql/postgresql.conf:ro
       - ./config/pg_hba.conf:/etc/postgresql/pg_hba.conf:ro
     command: postgres -c config_file=/etc/postgresql/postgresql.conf -c hba_file=/etc/postgresql/pg_hba.conf

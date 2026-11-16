@@ -14,21 +14,37 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      AI_DB_NAME: ${AI_DB_NAME}
-      AI_DB_USER: ${AI_DB_USER}
-      AI_DB_PASSWORD: ${AI_DB_PASSWORD}
-      COMMERCE_DB_NAME: ${COMMERCE_DB_NAME}
-      COMMERCE_DB_USER: ${COMMERCE_DB_USER}
-      COMMERCE_DB_PASSWORD: ${COMMERCE_DB_PASSWORD}
       IDENTITY_DB_NAME: ${IDENTITY_DB_NAME}
       IDENTITY_DB_USER: ${IDENTITY_DB_USER}
       IDENTITY_DB_PASSWORD: ${IDENTITY_DB_PASSWORD}
+      WALLET_DB_NAME: ${WALLET_DB_NAME}
+      WALLET_DB_USER: ${WALLET_DB_USER}
+      WALLET_DB_PASSWORD: ${WALLET_DB_PASSWORD}
       PAY_DB_NAME: ${PAY_DB_NAME}
       PAY_DB_USER: ${PAY_DB_USER}
       PAY_DB_PASSWORD: ${PAY_DB_PASSWORD}
+      EXCHANGE_DB_NAME: ${EXCHANGE_DB_NAME}
+      EXCHANGE_DB_USER: ${EXCHANGE_DB_USER}
+      EXCHANGE_DB_PASSWORD: ${EXCHANGE_DB_PASSWORD}
+      LIQUIDITY_DB_NAME: ${LIQUIDITY_DB_NAME}
+      LIQUIDITY_DB_USER: ${LIQUIDITY_DB_USER}
+      LIQUIDITY_DB_PASSWORD: ${LIQUIDITY_DB_PASSWORD}
+      AI_DB_NAME: ${AI_DB_NAME}
+      AI_DB_USER: ${AI_DB_USER}
+      AI_DB_PASSWORD: ${AI_DB_PASSWORD}
+      MARKET_DATA_DB_NAME: ${MARKET_DATA_DB_NAME}
+      MARKET_DATA_DB_USER: ${MARKET_DATA_DB_USER}
+      MARKET_DATA_DB_PASSWORD: ${MARKET_DATA_DB_PASSWORD}
+      VALIDATOR_DB_NAME: ${VALIDATOR_DB_NAME}
+      VALIDATOR_DB_USER: ${VALIDATOR_DB_USER}
+      VALIDATOR_DB_PASSWORD: ${VALIDATOR_DB_PASSWORD}
+      COMMERCE_DB_NAME: ${COMMERCE_DB_NAME}
+      COMMERCE_DB_USER: ${COMMERCE_DB_USER}
+      COMMERCE_DB_PASSWORD: ${COMMERCE_DB_PASSWORD}
     volumes:
       - /opt/oenexa/data/postgres:/var/lib/postgresql/data
       - ./init:/docker-entrypoint-initdb.d:ro
+      - ./schemas:/schemas:ro
       - ./config/postgresql.conf:/etc/postgresql/postgresql.conf:ro
       - ./config/pg_hba.conf:/etc/postgresql/pg_hba.conf:ro
     command: postgres -c config_file=/etc/postgresql/postgresql.conf -c hba_file=/etc/postgresql/pg_hba.conf
